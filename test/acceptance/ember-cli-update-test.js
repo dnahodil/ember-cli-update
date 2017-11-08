@@ -14,6 +14,9 @@ const {
   assertCodemodRan
 } = require('../helpers/assertions');
 const semver = require('semver');
+const denodeify = require('denodeify');
+const tmpDir = denodeify(require('tmp').dir);
+const cpr = denodeify(require('cpr'));
 
 const commitMessage = 'add files';
 
@@ -58,28 +61,37 @@ describe('Acceptance - ember-cli-update', function() {
   function fixtureCompare({
     mergeFixtures
   }) {
-    let actual = tmpPath;
-    let expected = mergeFixtures;
+    return Promise.resolve().then(() => {
+      return tmpDir();
+    }).then(expected => {
+      return Promise.resolve().then(() => {
+        return cpr(mergeFixtures, expected);
+      }).then(() => {
+        return fs.ensureFile(path.join(expected, '.env'));
+      }).then(() => {
+        let actual = tmpPath;
 
-    _fixtureCompare({
-      expect,
-      actual,
-      expected
+        _fixtureCompare({
+          expect,
+          actual,
+          expected
+        });
+      });
     });
   }
 
-  it('updates app', function() {
+  it.only('updates app', function() {
     return merge({
       fixturesPath: 'test/fixtures/local/my-app'
     }).promise.then(({
       status
     }) => {
-      fixtureCompare({
+      return fixtureCompare({
         mergeFixtures: 'test/fixtures/merge/my-app'
+      }).then(() => {
+        assertNormalUpdate(status);
+        assertNoUnstaged(status);
       });
-
-      assertNormalUpdate(status);
-      assertNoUnstaged(status);
     });
   });
 

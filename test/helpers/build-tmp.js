@@ -45,5 +45,7 @@ module.exports = function({
     dirty
   });
 
+  fs.ensureFileSync(path.join(tmpSubPath, '.env'));
+
   return tmpSubPath;
 };
