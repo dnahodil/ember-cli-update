@@ -2,7 +2,6 @@
 
 [![npm version](https://badge.fury.io/js/ember-cli-update.svg)](https://badge.fury.io/js/ember-cli-update)
 [![Build Status](https://travis-ci.org/ember-cli/ember-cli-update.svg?branch=master)](https://travis-ci.org/ember-cli/ember-cli-update)
-[![Build status](https://ci.appveyor.com/api/projects/status/iguxxyxkiu9kyeyo/branch/master?svg=true)](https://ci.appveyor.com/project/embercli/ember-cli-update/branch/master)
 
 Update Ember CLI Ember.js apps and addons (and Glimmer.js apps)
 
